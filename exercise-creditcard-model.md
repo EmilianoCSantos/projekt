@@ -11,7 +11,7 @@ This exercise will guide you through extending the current codebase (branch `8-e
 ## Steps
 
 ### 1. Create a New Feature Branch
-Create a new branch from `8-extensions` for your work:
+Create a new branch from `8-extensions` for your work. Name it `8a-extensions-creditcard`
 
 ---
 
