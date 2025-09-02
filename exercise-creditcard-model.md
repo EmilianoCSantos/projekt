@@ -15,7 +15,22 @@ Create a new branch from `8-extensions` for your work. Name it `8a-extensions-cr
 
 ---
 
-### 2. Add a Credit Card Model
+### 2. Create new User-Secrets
+- Open your current User Secrets secrets.json file. On Configuration/Configuration.csproj right click -> Manage User Secrets
+  Double click on the tab secrets.json to make sure the file stays open
+- In Configuration/Configuration.csproj remove the tag  <UserSecretsId>....</UserSecretsId>. Save the file
+- Open new empty User Secrets secrets.json file. On Configuration/Configuration.csproj right click -> Manage User Secrets
+- Replace the entire content of the empty secrets.json with the entire content of the old secrets.json
+
+---
+
+### 3. Rename the database
+
+- In readme-clr1.txt, database-rebuild-all.ps, database-rebuild-all.sh, appsettings.json, secrets.json file rename `sql-friends`to name `sql-creditcards`
+
+---
+
+### 4. Add a Credit Card Model
 Create interface `ICreditCard.cs` in the `Models/` folder.
 Create a new model class `CreditCard.cs` in the `Models/` folder with the ISeed<> implemented. Example:
 
@@ -56,7 +71,7 @@ public class CreditCard : ICreditCard, ISeed<CreditCard>
 ```
 ---
 
-### 3. Add a Corresponding DbModel
+### 5. Add a Corresponding DbModel
 Create a new class `CreditCardDbM.cs` in the `DbModels/` folder. The class shall inherit from CreditCard Model and override the EGC specific properties. 
 Implement ISeed<> by simply calling the Seed method of the base class. Example:
 
@@ -73,11 +88,18 @@ public class CreditCardDbM : CreditCard, ISeed<CreditCardDbM>
     }
 }
 ```
+---
+
+### 6. Register the DbSet in DbContext
+In `DbContext/MainDbContext.cs`, add a `DbSet<CreditCardDbM>` property:
+
+```csharp
+    public DbSet<CreditCardDbM> CreditCards { get; set; }
+```
 
 ---
 
-
-### 4. Seed the Credit Card DbModel
+### 7. Seed the Credit Card DbModel
 In `DbRepos/AdminDbRepos.cs`, update the `SeedAsync` method to seed 1000 `CreditCardDbM` instance. Example:
 
 ```csharp
@@ -89,35 +111,31 @@ In `DbRepos/AdminDbRepos.cs`, update the `SeedAsync` method to seed 1000 `Credit
 
 ---
 
-### 5. Register the DbSet in DbContext
-In `DbContext/MainDbContext.cs`, add a `DbSet<CreditCardDbM>` property:
-
-```csharp
-    public DbSet<CreditCardDbM> CreditCards { get; set; }
-```
-
----
-
-### 6. Build and Test
-- Build the solution: `dotnet build`, ensure no errors
+### 8. Build and Test
+- Build the solution and ensure no errors
 - Follow the instructions in readme-clr1.txt to build the databases and run the application and verify the new model is seeded.
 
 ---
 
-### 7. Remove all template models
-- remove Quote, IQuote, QuoteDbM
+### 9. Remove all template models
+- remove Quote, IQuote from Models 
+- remove QuoteDbM from DbModels  
 - remove QuoteDbM registration in DbContext/MainDbContext
 - remove QuoteDbM Seeding in DbRepos/AdminDbRepos.SeedAsync.
-- Build the solution: `dotnet build`, ensure no errors
+- Build the solution and ensure no errors
 - Follow the instructions in readme-clr1.txt to build the databases and run the application and verify the new model is seeded.
 
 ---
 
-### 8. Make a new standalone solution from the branch
-- Copy the entire solution folder with all files into a new folder named CreditCards
+### 10. Make a new standalone solution from the branch
+USE File explorer
+- Copy the entire solution folder GoodFriends_lesson_branches
+- Rename the new folder to CreditCards
 - Delete the .git folder in CreditCards
-- Open the folder CreditCards in Visual Studio Code
-- Delete the file GoodFriends.code-workspac
+
+USE Visual Studio Code
+- Open the folder CreditCards
+- Delete the file GoodFriends.code-workspace
 - Create a new Workspace using File->Save Workspace As...
 - Rename file GoodFriends.sln to CreditCards.sln 
 - Rename GoodFriends.sln to CreditCards.slnin in tasks.json
