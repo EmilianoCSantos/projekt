@@ -62,14 +62,14 @@ namespace AppWebApi.Controllers
         [ActionName("Seed")]
         [ProducesResponseType(200, Type = typeof(string))]
         [ProducesResponseType(400, Type = typeof(string))]
-        public async Task<IActionResult> Seed()
+       public async Task<IActionResult> Seed(int nrItems = 10)
         {
             try
             {
                 _logger.LogInformation($"{nameof(Seed)}");
-                await _service.SeedAsync();
+                await _service.SeedAsync(nrItems);
 
-                return Ok("Seeding completed successfully");
+                return Ok($"Seeded {nrItems} items successfully");
             }
             catch (Exception ex)
             {
