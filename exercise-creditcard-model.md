@@ -100,11 +100,11 @@ In `DbContext/MainDbContext.cs`, add a `DbSet<CreditCardDbM>` property:
 ---
 
 ### 7. Seed the Credit Card DbModel
-In `DbRepos/AdminDbRepos.cs`, update the `SeedAsync` method to seed 1000 `CreditCardDbM` instance. Example:
+In `DbRepos/AdminDbRepos.cs`, update the `SeedAsync` method to seed `nrItems` `CreditCardDbM` instance. Example:
 
 ```csharp
 // ...existing code...
-        var creditcards = seeder.ItemsToList<CreditCardDbM>(1000);
+        var creditcards = seeder.ItemsToList<CreditCardDbM>(nrItems);
         _dbContext.CreditCards.AddRange(creditcards);
 // ...existing code...
 ```
