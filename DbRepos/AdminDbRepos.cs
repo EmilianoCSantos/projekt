@@ -29,6 +29,9 @@ public class AdminDbRepos
         var quotes = seeder.AllQuotes.Select(q => new QuoteDbM(q)).ToList();
         _dbContext.Quotes.AddRange(quotes);
 
+         var creditcards = seeder.ItemsToList<CreditCardDbM>(nrItems);
+        _dbContext.CreditCards.AddRange(creditcards);
+
         //Save changes to the database
         await _dbContext.SaveChangesAsync();
     }
