@@ -1,9 +1,17 @@
 namespace Models
 {
+    public enum CardIssuer
+    {
+        Visa,
+        MasterCard,
+        Amex,
+        Discover,
+        Other
+    }
     public interface ICreditCard
     {
         Guid CreditCardId { get; set; }
-        CardIssues Issuer { get; set; }
+        CardIssuer Issuer { get; set; }
         string Number { get; set; }
         string ExpirationYear { get; set; }
         string ExpirationMonth { get; set; }

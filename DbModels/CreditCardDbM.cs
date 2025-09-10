@@ -1,4 +1,8 @@
 using DbModels;
+using Seido.Utilities.SeedGenerator;
+using Models;
+using KeyAttribute = System.ComponentModel.DataAnnotations.KeyAttribute;
+
 
 public class CreditCardDbM : CreditCard, ISeed<CreditCardDbM>
 {
