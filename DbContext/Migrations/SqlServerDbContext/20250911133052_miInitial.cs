@@ -28,19 +28,6 @@ namespace DbContext.Migrations.SqlServerDbContext
                 {
                     table.PrimaryKey("PK_CreditCards", x => x.CreditCardId);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "Quotes",
-                columns: table => new
-                {
-                    QuoteId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    QuoteText = table.Column<string>(type: "varchar(200)", nullable: true),
-                    Author = table.Column<string>(type: "varchar(200)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Quotes", x => x.QuoteId);
-                });
         }
 
         /// <inheritdoc />
@@ -48,9 +35,6 @@ namespace DbContext.Migrations.SqlServerDbContext
         {
             migrationBuilder.DropTable(
                 name: "CreditCards");
-
-            migrationBuilder.DropTable(
-                name: "Quotes");
         }
     }
 }

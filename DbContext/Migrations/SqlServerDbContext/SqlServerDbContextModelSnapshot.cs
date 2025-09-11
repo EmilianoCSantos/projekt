@@ -22,7 +22,7 @@ namespace DbContext.Migrations.SqlServerDbContext
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CreditCardDbM", b =>
+            modelBuilder.Entity("DbModels.CreditCardDbM", b =>
                 {
                     b.Property<Guid>("CreditCardId")
                         .ValueGeneratedOnAdd()
@@ -52,23 +52,6 @@ namespace DbContext.Migrations.SqlServerDbContext
                     b.HasKey("CreditCardId");
 
                     b.ToTable("CreditCards");
-                });
-
-            modelBuilder.Entity("DbModels.QuoteDbM", b =>
-                {
-                    b.Property<Guid>("QuoteId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Author")
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<string>("QuoteText")
-                        .HasColumnType("varchar(200)");
-
-                    b.HasKey("QuoteId");
-
-                    b.ToTable("Quotes");
                 });
 #pragma warning restore 612, 618
         }
