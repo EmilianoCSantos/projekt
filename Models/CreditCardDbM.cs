@@ -1,3 +1,6 @@
+using System.ComponentModel.DataAnnotations;
+using Seido.Utilities.SeedGenerator;
+
 namespace Models;
 
 public class CreditCardDbM : CreditCard, ISeed<CreditCardDbM>

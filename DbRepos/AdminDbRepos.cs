@@ -31,6 +31,7 @@ public class AdminDbRepos
 
          var creditcards = seeder.ItemsToList<CreditCardDbM>(nrItems);
         _dbContext.CreditCards.AddRange(creditcards);
+        
 
         //Save changes to the database
         await _dbContext.SaveChangesAsync();
