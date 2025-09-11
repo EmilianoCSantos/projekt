@@ -34,7 +34,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/GoodFriends.sln"
+                "${workspaceFolder}/CreditCards.sln"
             ],
             "problemMatcher": "$msCompile"
         }
