@@ -53,6 +53,32 @@ namespace DbContext.Migrations.SqlServerDbContext
 
                     b.ToTable("CreditCards");
                 });
+
+            modelBuilder.Entity("DbModels.UsersDbM", b =>
+                {
+                    b.Property<Guid>("UsersId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("EncryptedToken")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<bool>("Seeded")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("varchar(200)");
+
+                    b.HasKey("UsersId");
+
+                    b.ToTable("Users");
+                });
 #pragma warning restore 612, 618
         }
     }

@@ -28,6 +28,22 @@ namespace DbContext.Migrations.SqlServerDbContext
                 {
                     table.PrimaryKey("PK_CreditCards", x => x.CreditCardId);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    UsersId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserName = table.Column<string>(type: "varchar(200)", nullable: true),
+                    FirstName = table.Column<string>(type: "varchar(200)", nullable: true),
+                    LastName = table.Column<string>(type: "varchar(200)", nullable: true),
+                    EncryptedToken = table.Column<string>(type: "varchar(200)", nullable: true),
+                    Seeded = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.UsersId);
+                });
         }
 
         /// <inheritdoc />
@@ -35,6 +51,9 @@ namespace DbContext.Migrations.SqlServerDbContext
         {
             migrationBuilder.DropTable(
                 name: "CreditCards");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }
