@@ -22,6 +22,32 @@ namespace DbContext.Migrations.SqlServerDbContext
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("DbModels.AttractionsDbM", b =>
+                {
+                    b.Property<Guid>("AttractionsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("EncryptedToken")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("LocationID")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<bool>("Seeded")
+                        .HasColumnType("bit");
+
+                    b.HasKey("AttractionsId");
+
+                    b.ToTable("Attractions");
+                });
+
             modelBuilder.Entity("DbModels.CreditCardDbM", b =>
                 {
                     b.Property<Guid>("CreditCardId")
@@ -52,6 +78,58 @@ namespace DbContext.Migrations.SqlServerDbContext
                     b.HasKey("CreditCardId");
 
                     b.ToTable("CreditCards");
+                });
+
+            modelBuilder.Entity("DbModels.LocationsDbM", b =>
+                {
+                    b.Property<Guid>("LocationsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("City")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("EncryptedToken")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<bool>("Seeded")
+                        .HasColumnType("bit");
+
+                    b.HasKey("LocationsId");
+
+                    b.ToTable("Locations");
+                });
+
+            modelBuilder.Entity("DbModels.ReviewsDbM", b =>
+                {
+                    b.Property<Guid>("ReviewsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AttractionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("EncryptedToken")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Seeded")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ReviewsId");
+
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("DbModels.UsersDbM", b =>
