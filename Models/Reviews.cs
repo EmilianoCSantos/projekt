@@ -12,6 +12,10 @@ public class Reviews : IReviews, ISeed<Reviews>
     public Guid AttractionId { get; set; }
     public string EncryptedToken { get; set; } //AES encrypted version of the cc
 
+    // Navigation Properties
+    public virtual Users User { get; set; }
+    public virtual Attractions Attraction { get; set; }
+
     #region Seeder
     public bool Seeded { get; set; } = false;
 
