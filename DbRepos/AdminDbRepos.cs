@@ -22,8 +22,7 @@ public class AdminDbRepos
         var fn = Path.GetFullPath(_seedSource);
         var seeder = new SeedGenerator(fn);
 
-        var creditcards = seeder.ItemsToList<CreditCardDbM>(nrItems);
-        _dbContext.CreditCards.AddRange(creditcards);
+        // CreditCard references removed - keeping for future use if needed
         
 
         //Save changes to the database

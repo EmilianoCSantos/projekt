@@ -24,7 +24,6 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
 #endif
 
     #region C# model of database tables
-    public DbSet<CreditCardDbM> CreditCards { get; set; }
     public DbSet<UsersDbM> Users { get; set; }
     public DbSet<AttractionsDbM> Attractions { get; set; }
     public DbSet<LocationsDbM> Locations { get; set; }
