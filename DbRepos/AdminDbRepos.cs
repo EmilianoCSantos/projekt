@@ -18,14 +18,12 @@ public class AdminDbRepos
 
     public async Task SeedAsync(int nrItems)
     {
-        //Create a seeder
+      
+      
         var fn = Path.GetFullPath(_seedSource);
         var seeder = new SeedGenerator(fn);
 
-        // CreditCard references removed - keeping for future use if needed
         
-
-        //Save changes to the database
         await _dbContext.SaveChangesAsync();
     }
 

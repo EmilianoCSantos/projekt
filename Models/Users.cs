@@ -22,7 +22,7 @@ public class Users : IUsers, ISeed<Users>
         Seeded = true;
         UsersId = Guid.NewGuid();
 
-        //UserName = seeder.UserName;//måste adda UserName i SeedGenerator
+        UserName = seeder.PetName;//använder PetName som UserName i SeedGenerator
         FirstName = seeder.FirstName;
         LastName = seeder.LastName;
 
