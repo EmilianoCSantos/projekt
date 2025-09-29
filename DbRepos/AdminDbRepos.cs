@@ -19,11 +19,13 @@ public class AdminDbRepos
     public async Task SeedAsync(int nrItems)
     {
       
-      
         var fn = Path.GetFullPath(_seedSource);
         var seeder = new SeedGenerator(fn);
 
-        
+        // Seed Users table
+        var users = seeder.ItemsToList<UsersDbM>(nrItems);
+        _dbContext.Users.AddRange(users);
+
         await _dbContext.SaveChangesAsync();
     }
 
