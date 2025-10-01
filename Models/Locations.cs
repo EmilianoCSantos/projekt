@@ -22,7 +22,7 @@ public class Locations : ILocations, ISeed<Locations>
         LocationsId = Guid.NewGuid();
 
         Country = seeder.Country;
-        //City = seeder.City; //måste adda City i SeedGenerator
+        City = seeder.City();
 
         return this;
     }

@@ -26,6 +26,10 @@ public class AdminDbRepos
         var users = seeder.ItemsToList<UsersDbM>(nrItems);
         _dbContext.Users.AddRange(users);
 
+        // Seed Locations table
+        var locations = seeder.ItemsToList<LocationsDbM>(nrItems);
+        _dbContext.Locations.AddRange(locations);
+
         await _dbContext.SaveChangesAsync();
     }
 
