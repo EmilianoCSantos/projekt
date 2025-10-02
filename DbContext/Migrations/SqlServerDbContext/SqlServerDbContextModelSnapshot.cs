@@ -22,6 +22,32 @@ namespace DbContext.Migrations.SqlServerDbContext
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("DbModels.UsersDbM", b =>
+                {
+                    b.Property<Guid>("UsersId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("EncryptedToken")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<bool>("Seeded")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("varchar(200)");
+
+                    b.HasKey("UsersId");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("Models.Attractions", b =>
                 {
                     b.Property<Guid>("AttractionsId")
@@ -91,83 +117,6 @@ namespace DbContext.Migrations.SqlServerDbContext
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("Models.Reviews", b =>
-                {
-                    b.Property<Guid>("ReviewsId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AttractionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Comment")
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<string>("EncryptedToken")
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Seeded")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ReviewsId");
-
-                    b.HasIndex("AttractionId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Reviews");
-
-                    b.HasDiscriminator().HasValue("Reviews");
-
-                    b.UseTphMappingStrategy();
-                });
-
-            modelBuilder.Entity("Models.Users", b =>
-                {
-                    b.Property<Guid>("UsersId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<string>("EncryptedToken")
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<bool>("Seeded")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("varchar(200)");
-
-                    b.HasKey("UsersId");
-
-                    b.ToTable("Users");
-
-                    b.HasDiscriminator().HasValue("Users");
-
-                    b.UseTphMappingStrategy();
-                });
-
             modelBuilder.Entity("DbModels.AttractionsDbM", b =>
                 {
                     b.HasBaseType("Models.Attractions");
@@ -182,20 +131,6 @@ namespace DbContext.Migrations.SqlServerDbContext
                     b.HasDiscriminator().HasValue("LocationsDbM");
                 });
 
-            modelBuilder.Entity("DbModels.ReviewsDbM", b =>
-                {
-                    b.HasBaseType("Models.Reviews");
-
-                    b.HasDiscriminator().HasValue("ReviewsDbM");
-                });
-
-            modelBuilder.Entity("DbModels.UsersDbM", b =>
-                {
-                    b.HasBaseType("Models.Users");
-
-                    b.HasDiscriminator().HasValue("UsersDbM");
-                });
-
             modelBuilder.Entity("Models.Attractions", b =>
                 {
                     b.HasOne("Models.Locations", "Location")
@@ -207,38 +142,9 @@ namespace DbContext.Migrations.SqlServerDbContext
                     b.Navigation("Location");
                 });
 
-            modelBuilder.Entity("Models.Reviews", b =>
-                {
-                    b.HasOne("Models.Attractions", "Attraction")
-                        .WithMany("Reviews")
-                        .HasForeignKey("AttractionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Models.Users", "User")
-                        .WithMany("Reviews")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Attraction");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Models.Attractions", b =>
-                {
-                    b.Navigation("Reviews");
-                });
-
             modelBuilder.Entity("Models.Locations", b =>
                 {
                     b.Navigation("Attractions");
-                });
-
-            modelBuilder.Entity("Models.Users", b =>
-                {
-                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }
