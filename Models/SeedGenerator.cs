@@ -35,6 +35,8 @@ namespace Seido.Utilities.SeedGenerator
         public string FirstName => _seeds.Names.FirstNames[this.Next(0, _seeds.Names.FirstNames.Count)];
         public string LastName => _seeds.Names.LastNames[this.Next(0, _seeds.Names.LastNames.Count)];
         public string FullName => $"{FirstName} {LastName}";
+        public PlaceTypeEnum PlaceType => (PlaceTypeEnum)Next(0, Enum.GetNames(typeof(PlaceTypeEnum)).Length);
+
         #endregion
 
         #region Addresses
@@ -588,6 +590,7 @@ namespace Seido.Utilities.SeedGenerator
                     jsonAlbumPrefix = "A, The, One, The great, A wonderful, Let's rock with, Relaxing, Chill with, Dance with",
                     jsonAlbumSuffix = "with friends, with love, with fire, and walking, being happy",
                 }
+
             };
         }
         #endregion
@@ -850,7 +853,6 @@ namespace Seido.Utilities.SeedGenerator
             public SeedDomains Domains { get; set; } = new SeedDomains();
             public SeedMusic Music { get; set; } = new SeedMusic();
 
-
             public string WriteFile(string FileName) => WriteFile(this, FileName);
             public static string WriteFile(SeedJsonContent Seeds, string FileName)
             {
@@ -896,6 +898,19 @@ namespace Seido.Utilities.SeedGenerator
             }
         }
     #endregion
+    }
+
+    public enum PlaceTypeEnum
+    {
+        Bar,
+        NightClub,
+        Bookstore,
+        Restaurant,
+        Cafe,
+        Theater,
+        Gallery,
+        Shop,
+        Hotel
     }
 }
 

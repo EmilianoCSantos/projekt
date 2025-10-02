@@ -12,7 +12,7 @@ public class Users : IUsers, ISeed<Users>
     public string EncryptedToken { get; set; } //AES encrypted version of the cc
 
     // Navigation Properties
-    public virtual ICollection<Reviews> Reviews { get; set; } = new List<Reviews>();
+    //public virtual ICollection<Reviews> Reviews { get; set; } = new List<Reviews>();
 
     #region Seeder
     public bool Seeded { get; set; } = false;

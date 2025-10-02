@@ -13,7 +13,7 @@ public class Attractions : IAttractions, ISeed<Attractions>
 
     // Navigation Properties
     public virtual Locations Location { get; set; }
-    public virtual ICollection<Reviews> Reviews { get; set; } = new List<Reviews>();
+    //public virtual ICollection<Reviews> Reviews { get; set; } = new List<Reviews>();
 
     #region Seeder
     public bool Seeded { get; set; } = false;
@@ -23,8 +23,8 @@ public class Attractions : IAttractions, ISeed<Attractions>
         Seeded = true;
         AttractionsId = Guid.NewGuid();
 
-        //Name = seeder.Name;
-        //Description = seeder.Description; name och description måste adda i SeedGenerator
+        Name = $"{seeder.LastName} {seeder.PlaceType}";
+        Description = seeder.LatinSentence;
 
         return this;
     }
