@@ -8,7 +8,7 @@ public class Attractions : IAttractions, ISeed<Attractions>
     public virtual Guid AttractionsId { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
-    public Guid LocationId { get; set; } 
+    public Guid? LocationId { get; set; } 
     public string EncryptedToken { get; set; } //AES encrypted version of the cc
 
     // Navigation Properties
