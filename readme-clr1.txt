@@ -8,7 +8,7 @@ To create the AppWebApi
    ./database-rebuild-all.sh postgresql docker
    
    Windows
-   ./database-rebuild-all.ps1 sqlserver docker
+  ./database-rebuild-all.ps1 sqlserver docker 
    ./database-rebuild-all.ps1 mysql docker
    ./database-rebuild-all.ps1 postgresql docker
 

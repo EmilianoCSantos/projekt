@@ -18,14 +18,13 @@ public class Reviews : IReviews, ISeed<Reviews>
 
     #region Seeder
     public bool Seeded { get; set; } = false;
-
     public Reviews Seed(SeedGenerator seeder)
     {
         Seeded = true;
         ReviewsId = Guid.NewGuid();
-     
-        //Rating = seeder.Rating; dessa måste skapas i SeedGenerator
-        //Comment = seeder.Comment;
+
+        Rating = seeder.Next(1, 6);
+        Comment = seeder.LatinSentence;
 
         return this;
     }

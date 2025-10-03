@@ -27,7 +27,7 @@ public class MainDbContext : Microsoft.EntityFrameworkCore.DbContext
     public DbSet<UsersDbM> Users { get; set; }
     public DbSet<AttractionsDbM> Attractions { get; set; }
     public DbSet<LocationsDbM> Locations { get; set; }
-    //public DbSet<ReviewsDbM> Reviews { get; set; }
+    public DbSet<ReviewsDbM> Reviews { get; set; }
 
     #endregion
 
