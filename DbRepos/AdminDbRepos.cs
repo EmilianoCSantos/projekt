@@ -195,7 +195,7 @@ public class AdminDbRepos
         }
     }
 
-    //Seed Reviews
+    //Seed Reviews 0 till 20 per Attraction
     public async Task SeedReviewsAsync(int nrItems)
     {
         try
@@ -213,21 +213,30 @@ public class AdminDbRepos
             var savedAttractionIds = await _dbContext.Attractions.Select(a => a.AttractionsId).ToListAsync();
             _logger.LogInformation($"Found {savedAttractionIds.Count} saved attraction IDs");
 
-            // Seed Reviews table
-            _logger.LogInformation("Seeding Reviews...");
-            var reviews = seeder.ItemsToList<ReviewsDbM>(nrItems);
-            _logger.LogInformation($"Created {reviews.Count} reviews");
+            // Skapa reviews för varje attraction (0-20 reviews per attraction)
+            _logger.LogInformation("Creating reviews for each attraction (0-20 per attraction)...");
+            var allReviews = new List<ReviewsDbM>();
 
-            for (int i = 0; i < reviews.Count; i++)
+            // Loop genom alla attractions
+            foreach (var attractionId in savedAttractionIds)
             {
-                // Tilldela varje review en giltig UserId och AttractionId från databasen
-                reviews[i].UserId = savedUserIds[i % savedUserIds.Count];
-                reviews[i].AttractionId = savedAttractionIds[i % savedAttractionIds.Count];
-                _logger.LogInformation($"Review {i}: {reviews[i].Comment} -> UserId: {reviews[i].UserId}, AttractionId: {reviews[i].AttractionId}");
+                // Slumpmässigt antal reviews för denna attraction (0-20)
+                int randomReviewCount = seeder.Next(0, 21); // 0-20 inklusive
+                _logger.LogInformation($"Creating {randomReviewCount} reviews for attraction {attractionId}");
+
+                // Skapa det antalet reviews för denna attraction
+                for (int i = 0; i < randomReviewCount; i++)
+                {
+                    var review = new ReviewsDbM().Seed(seeder);
+                    review.AttractionId = attractionId;
+                    review.UserId = savedUserIds[seeder.Next(0, savedUserIds.Count)]; // Random user
+                    allReviews.Add(review);
+                }
             }
 
+            _logger.LogInformation($"Created total of {allReviews.Count} reviews for all attractions");
             _logger.LogInformation("Adding Reviews to context...");
-            _dbContext.Reviews.AddRange(reviews);
+            _dbContext.Reviews.AddRange(allReviews);
 
             _logger.LogInformation("Saving Reviews with FK relationships...");
             await _dbContext.SaveChangesAsync();
