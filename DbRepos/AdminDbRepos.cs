@@ -194,7 +194,56 @@ public class AdminDbRepos
             throw;
         }
     }
-    
+
+    //Seed Reviews
+    public async Task SeedReviewsAsync(int nrItems)
+    {
+        try
+        {
+            var fn = Path.GetFullPath(_seedSource);
+            var seeder = new SeedGenerator(fn);
+
+            // Hämta de faktiska sparade UserId från databasen
+            _logger.LogInformation("Fetching saved UserIds from database...");
+            var savedUserIds = await _dbContext.Users.Select(u => u.UsersId).ToListAsync();
+            _logger.LogInformation($"Found {savedUserIds.Count} saved user IDs");
+
+            // Hämta de faktiska sparade AttractionId från databasen
+            _logger.LogInformation("Fetching saved AttractionIds from database...");
+            var savedAttractionIds = await _dbContext.Attractions.Select(a => a.AttractionsId).ToListAsync();
+            _logger.LogInformation($"Found {savedAttractionIds.Count} saved attraction IDs");
+
+            // Seed Reviews table
+            _logger.LogInformation("Seeding Reviews...");
+            var reviews = seeder.ItemsToList<ReviewsDbM>(nrItems);
+            _logger.LogInformation($"Created {reviews.Count} reviews");
+
+            for (int i = 0; i < reviews.Count; i++)
+            {
+                // Tilldela varje review en giltig UserId och AttractionId från databasen
+                reviews[i].UserId = savedUserIds[i % savedUserIds.Count];
+                reviews[i].AttractionId = savedAttractionIds[i % savedAttractionIds.Count];
+                _logger.LogInformation($"Review {i}: {reviews[i].Comment} -> UserId: {reviews[i].UserId}, AttractionId: {reviews[i].AttractionId}");
+            }
+
+            _logger.LogInformation("Adding Reviews to context...");
+            _dbContext.Reviews.AddRange(reviews);
+
+            _logger.LogInformation("Saving Reviews with FK relationships...");
+            await _dbContext.SaveChangesAsync();
+            _logger.LogInformation("All entities saved successfully with relationships!");
+
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error during seeding reviews: {ex.Message}");
+            if (ex.InnerException != null)
+            {
+                _logger.LogError($"Inner exception: {ex.InnerException.Message}");
+            }
+            throw;
+        }
+    }
     public AdminDbRepos(ILogger<AdminDbRepos> logger, Encryptions encryptions, MainDbContext context)
     {
         _logger = logger;

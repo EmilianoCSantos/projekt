@@ -6,4 +6,5 @@ public interface IAdminService
     public Task SeedUsersAsync(int nrItems);
     public Task SeedLocationsAsync(int nrItems);
     public Task SeedAttractionsAsync(int nrItems);
+    public Task SeedReviewsAsync(int nrItems);
 }

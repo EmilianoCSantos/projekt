@@ -140,6 +140,26 @@ namespace AppWebApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        //GET: api/admin/seed?count={count} Seedar Reviews med FK till Attractions och Users
+        [HttpGet()]
+        [ActionName("SeedReviews")]
+        [ProducesResponseType(200, Type = typeof(string))]
+        [ProducesResponseType(400, Type = typeof(string))]
+        public async Task<IActionResult> SeedReviews(int nrItems = 1000)
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(SeedReviews)}");
+                await _service.SeedReviewsAsync(nrItems);
+
+                return Ok($"Seeded {nrItems} review items successfully");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(SeedReviews)}: {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
 
         //GET: api/admin/log
         [HttpGet()]
