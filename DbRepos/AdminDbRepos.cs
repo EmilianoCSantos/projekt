@@ -6,6 +6,7 @@ using Seido.Utilities.SeedGenerator;
 using DbModels;
 using DbContext;
 using Configuration;
+using System.Runtime.CompilerServices;
 
 namespace DbRepos;
 
@@ -153,6 +154,47 @@ public class AdminDbRepos
             throw;
         }
     }
+    // Seeda 1000 Attractions med FK till Locations
+    public async Task SeedAttractionsAsync(int nrItems)
+    {
+        try
+        {
+            var fn = Path.GetFullPath(_seedSource);
+            var seeder = new SeedGenerator(fn);
+
+            // Hämta de faktiska sparade LocationId från databasen
+            _logger.LogInformation("Fetching saved LocationIds from database...");
+            var savedLocationIds = await _dbContext.Locations.Select(l => l.LocationsId).ToListAsync();
+            _logger.LogInformation($"Found {savedLocationIds.Count} saved location IDs");
+
+            var attractions = seeder.ItemsToList<AttractionsDbM>(nrItems);
+            _logger.LogInformation($"Created {attractions.Count} attractions");
+
+            for (int i = 0; i < attractions.Count; i++)
+            {
+                // Tilldela varje attraction en giltig LocationId från databasen
+                attractions[i].LocationId = savedLocationIds[i % savedLocationIds.Count];
+                _logger.LogInformation($"Attraction {i}: {attractions[i].Name} -> LocationId: {attractions[i].LocationId}");
+            }
+
+            _logger.LogInformation("Adding Attractions to context...");
+            _dbContext.Attractions.AddRange(attractions);
+
+            _logger.LogInformation("Saving Attractions with FK relationships...");
+            await _dbContext.SaveChangesAsync();
+            _logger.LogInformation("All entities saved successfully with relationships!");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error during seeding attractions: {ex.Message}");
+            if (ex.InnerException != null)
+            {
+                _logger.LogError($"Inner exception: {ex.InnerException.Message}");
+            }
+            throw;
+        }
+    }
+    
     public AdminDbRepos(ILogger<AdminDbRepos> logger, Encryptions encryptions, MainDbContext context)
     {
         _logger = logger;

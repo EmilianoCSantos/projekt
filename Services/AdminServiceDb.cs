@@ -12,6 +12,7 @@ public class AdminServiceDb : IAdminService
     public Task SeedAsync(int nrItems) => _repo.SeedAsync(nrItems);
     public Task SeedUsersAsync(int nrItems) => _repo.SeedUsersAsync(nrItems);
     public Task SeedLocationsAsync(int nrItems) => _repo.SeedLocationsAsync(nrItems);
+    public Task SeedAttractionsAsync(int nrItems) => _repo.SeedAttractionsAsync(nrItems);
 
     #region constructors
     public AdminServiceDb(AdminDbRepos repo)
