@@ -101,6 +101,32 @@ public class AdminDbRepos
         }
 }
 
+public async Task SeedUsersAsync(int nrItems)
+{
+        try
+        {
+            var fn = Path.GetFullPath(_seedSource);
+            var seeder = new SeedGenerator(fn);
+
+            // Seed 50Users table
+            _logger.LogInformation("Seeding Users...");
+            var users = seeder.ItemsToList<UsersDbM>(nrItems);
+            _dbContext.Users.AddRange(users);
+
+            _logger.LogInformation("Saving Users...");
+            await _dbContext.SaveChangesAsync();
+            _logger.LogInformation("Users saved successfully");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error during seeding users: {ex.Message}");
+            if (ex.InnerException != null)
+            {
+                _logger.LogError($"Inner exception: {ex.InnerException.Message}");
+            }
+            throw;
+        }
+}
     public AdminDbRepos(ILogger<AdminDbRepos> logger, Encryptions encryptions, MainDbContext context)
     {
         _logger = logger;

@@ -57,7 +57,7 @@ namespace AppWebApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        //GET: api/admin/seed?count={count}
+        //GET: api/admin/seed?count={count} Seedar 10 items
         [HttpGet()]
         [ActionName("Seed")]
         [ProducesResponseType(200, Type = typeof(string))]
@@ -74,6 +74,27 @@ namespace AppWebApi.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"{nameof(Seed)}: {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        //GET: api/admin/seed?count={count} Seedar 50 användare
+        [HttpGet()]
+        [ActionName("SeedUsers")]
+        [ProducesResponseType(200, Type = typeof(string))]
+        [ProducesResponseType(400, Type = typeof(string))]
+        public async Task<IActionResult> SeedUsers(int nrItems = 50)
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(SeedUsers)}");
+                await _service.SeedUsersAsync(nrItems);
+
+                return Ok($"Seeded {nrItems} user items successfully");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(SeedUsers)}: {ex.Message}");
                 return BadRequest(ex.Message);
             }
         }
