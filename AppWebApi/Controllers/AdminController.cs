@@ -99,6 +99,27 @@ namespace AppWebApi.Controllers
             }
         }
 
+        //GET: api/admin/seed?count={count} Seedar 100 Locations
+        [HttpGet()]
+        [ActionName("SeedLocations")]
+        [ProducesResponseType(200, Type = typeof(string))]
+        [ProducesResponseType(400, Type = typeof(string))]
+        public async Task<IActionResult> SeedLocations(int nrItems = 100)
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(SeedLocations)}");
+                await _service.SeedLocationsAsync(nrItems);
+
+                return Ok($"Seeded {nrItems} location items successfully");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(SeedLocations)}: {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
+
         //GET: api/admin/log
         [HttpGet()]
         [ActionName("Log")]

@@ -100,15 +100,14 @@ public class AdminDbRepos
             throw;
         }
 }
-
-public async Task SeedUsersAsync(int nrItems)
-{
+    // Seeda 50 användare
+    public async Task SeedUsersAsync(int nrItems)
+    {
         try
         {
             var fn = Path.GetFullPath(_seedSource);
             var seeder = new SeedGenerator(fn);
 
-            // Seed 50Users table
             _logger.LogInformation("Seeding Users...");
             var users = seeder.ItemsToList<UsersDbM>(nrItems);
             _dbContext.Users.AddRange(users);
@@ -126,7 +125,34 @@ public async Task SeedUsersAsync(int nrItems)
             }
             throw;
         }
-}
+    }
+    // Seeda 100 Locations
+    public async Task SeedLocationsAsync(int nrItems)
+    {
+        try
+        {
+            var fn = Path.GetFullPath(_seedSource);
+            var seeder = new SeedGenerator(fn);
+
+            // Seed Locations table
+            _logger.LogInformation("Seeding Locations...");
+            var locations = seeder.ItemsToList<LocationsDbM>(nrItems);
+            _dbContext.Locations.AddRange(locations);
+
+            _logger.LogInformation("Saving Locations...");
+            await _dbContext.SaveChangesAsync();
+            _logger.LogInformation("Locations saved successfully");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error during seeding locations: {ex.Message}");
+            if (ex.InnerException != null)
+            {
+                _logger.LogError($"Inner exception: {ex.InnerException.Message}");
+            }
+            throw;
+        }
+    }
     public AdminDbRepos(ILogger<AdminDbRepos> logger, Encryptions encryptions, MainDbContext context)
     {
         _logger = logger;
