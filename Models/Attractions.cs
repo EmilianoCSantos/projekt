@@ -23,7 +23,7 @@ public class Attractions : IAttractions, ISeed<Attractions>
         Seeded = true;
         AttractionsId = Guid.NewGuid();
 
-        Name = $"{seeder.LastName} {seeder.PlaceType}";
+        Name = $"{seeder.LastName}'s {seeder.PlaceType}";
         Description = seeder.LatinSentence;
 
         return this;
