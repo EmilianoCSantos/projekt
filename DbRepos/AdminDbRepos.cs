@@ -380,7 +380,7 @@ public class AdminDbRepos
         await _dbContext.Database.ExecuteSqlRawAsync("DELETE FROM Attractions");
         await _dbContext.Database.ExecuteSqlRawAsync("DELETE FROM Users");
         await _dbContext.Database.ExecuteSqlRawAsync("DELETE FROM Locations");
-        return new { Message = "All data cleared from Reviews, Attractions, Users, and Locations tables." };
+        return new { Message = "All data borttaget från databasen." };
     }
 
     public AdminDbRepos(ILogger<AdminDbRepos> logger, Encryptions encryptions, MainDbContext context)
