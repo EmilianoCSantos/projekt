@@ -7,6 +7,7 @@ using Services;
 using Configuration;
 using Configuration.Options;
 using Microsoft.Extensions.Options;
+using DbModels;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -157,6 +158,30 @@ namespace AppWebApi.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"{nameof(SeedReviewsAsync)}: {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
+        //GET: api/admin/attractions?category=&title=&description=&country=&city= Visar sevärdheter filtrerade på kategori, rubrik, beskrivning, land, och ort
+        [HttpGet()]
+        [ActionName("GetFilteredAttractions")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<AttractionsDbM>))]
+        [ProducesResponseType(400, Type = typeof(string))]
+        public async Task<IActionResult> GetFilteredAttractions(
+            string category = null,
+            string title = null,
+            string description = null,
+            string country = null,
+            string city = null)
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(GetFilteredAttractions)}");
+                var result = await _service.GetFilteredAttractionsAsync(category, title, description, country, city);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(GetFilteredAttractions)}: {ex.Message}");
                 return BadRequest(ex.Message);
             }
         }

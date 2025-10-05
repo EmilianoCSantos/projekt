@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-
+using DbModels;
 using DbRepos;
 
 namespace Services;
@@ -14,6 +14,13 @@ public class AdminServiceDb : IAdminService
     public Task SeedLocationsAsync(int nrItems) => _repo.SeedLocationsAsync(nrItems);
     public Task SeedAttractionsAsync(int nrItems) => _repo.SeedAttractionsAsync(nrItems);
     public Task SeedReviewsAsync(int nrItems) => _repo.SeedReviewsAsync(nrItems);
+    public Task<List<AttractionsDbM>> GetFilteredAttractionsAsync(
+        string category = null, 
+        string title = null, 
+        string description = null, 
+        string country = null, 
+        string city = null) => _repo.GetFilteredAttractionsAsync(category, title, description, country, city);
+    
 
     #region constructors
     public AdminServiceDb(AdminDbRepos repo)

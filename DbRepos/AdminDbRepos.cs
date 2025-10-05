@@ -253,6 +253,72 @@ public class AdminDbRepos
             throw;
         }
     }
+
+    //Visa alla sevärdheter filtrerade på kategori, rubrik, beskrivning, land och ort
+    public async Task<List<AttractionsDbM>> GetFilteredAttractionsAsync(
+        string category = null, 
+        string title = null, 
+        string description = null, 
+        string country = null, 
+        string city = null)
+    {
+        try
+        {
+            _logger.LogInformation("Filtering attractions with parameters: category={category}, title={title}, description={description}, country={country}, city={city}",
+                category, title, description, country, city);
+
+            // Starta med grundläggande query och inkludera Location
+            var query = _dbContext.Attractions
+                .Include(a => a.Location)
+                .AsQueryable();
+
+            // Filtrera på kategori (söker i Name-fältet där PlaceType finns)
+            if (!string.IsNullOrEmpty(category))
+            {
+                query = query.Where(a => a.Name.Contains(category));
+                _logger.LogInformation("Applied category filter: {category}", category);
+            }
+
+            // Filtrera på titel/namn
+            if (!string.IsNullOrEmpty(title))
+            {
+                query = query.Where(a => a.Name.Contains(title));
+                _logger.LogInformation("Applied title filter: {title}", title);
+            }
+
+            // Filtrera på beskrivning
+            if (!string.IsNullOrEmpty(description))
+            {
+                query = query.Where(a => a.Description.Contains(description));
+                _logger.LogInformation("Applied description filter: {description}", description);
+            }
+
+            // Filtrera på land
+            if (!string.IsNullOrEmpty(country))
+            {
+                query = query.Where(a => a.Location.Country.Contains(country));
+                _logger.LogInformation("Applied country filter: {country}", country);
+            }
+
+            // Filtrera på stad
+            if (!string.IsNullOrEmpty(city))
+            {
+                query = query.Where(a => a.Location.City.Contains(city));
+                _logger.LogInformation("Applied city filter: {city}", city);
+            }
+
+            var result = await query.ToListAsync();
+            _logger.LogInformation("Found {count} attractions matching filters", result.Count);
+            
+            return result;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error filtering attractions");
+            throw;
+        }
+    }
+
     public AdminDbRepos(ILogger<AdminDbRepos> logger, Encryptions encryptions, MainDbContext context)
     {
         _logger = logger;
