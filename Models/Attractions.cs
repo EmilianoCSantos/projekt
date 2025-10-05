@@ -13,7 +13,7 @@ public class Attractions : IAttractions, ISeed<Attractions>
 
     // Navigation Properties
     public virtual Locations Location { get; set; }
-    //public virtual ICollection<Reviews> Reviews { get; set; } = new List<Reviews>();
+    public virtual ICollection<Reviews> Reviews { get; set; } = new List<Reviews>();
 
     #region Seeder
     public bool Seeded { get; set; } = false;

@@ -7,6 +7,8 @@ using DbModels;
 using DbContext;
 using Configuration;
 using System.Runtime.CompilerServices;
+using Models;
+
 
 namespace DbRepos;
 
@@ -338,6 +340,37 @@ public class AdminDbRepos
             _logger.LogError(ex, "Error fetching attractions without reviews");
             throw;
         }
+    }
+    //Visar sedvärdhets kategori, rubrik, beskrivning, land, ort och alla reviews med kommentarer
+    public async Task<AttractionWithCommentsDto> GetAttractionWithCommentsAsync(Guid attractionId)
+    {
+        _logger.LogInformation("Getting attraction {attractionId} with comments", attractionId);
+
+        // Hämta attraction utan Reviews först
+        var attraction = await _dbContext.Attractions
+            .FirstOrDefaultAsync(a => a.AttractionsId == attractionId);
+
+        if (attraction == null)
+        {
+            _logger.LogWarning("Attraction {attractionId} not found", attractionId);
+            return null;
+        }
+
+        var comments = await _dbContext.Database
+            .SqlQuery<string>($"SELECT Comment FROM Reviews WHERE AttractionId = {attractionId}")
+            .ToListAsync();
+
+        var dto = new AttractionWithCommentsDto
+        {
+            Name = attraction.Name,                     
+            Description = attraction.Description,       
+            Comments = comments
+        };
+
+        _logger.LogInformation("Returning attraction {attractionId} with {commentCount} comments",
+            attractionId, dto.Comments.Count);
+
+        return dto;
     }
 
     public AdminDbRepos(ILogger<AdminDbRepos> logger, Encryptions encryptions, MainDbContext context)

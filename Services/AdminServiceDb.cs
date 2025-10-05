@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using DbModels;
 using DbRepos;
+using Models;
 
 namespace Services;
     
@@ -23,6 +24,7 @@ public class AdminServiceDb : IAdminService
 
     public Task<List<AttractionsDbM>> GetAttractionsWithoutReviewsAsync() => _repo.GetAttractionsWithoutReviewsAsync();
 
+    public Task<AttractionWithCommentsDto> GetAttractionWithCommentsAsync(Guid attractionId) => _repo.GetAttractionWithCommentsAsync(attractionId);
     #region constructors
     public AdminServiceDb(AdminDbRepos repo)
     {

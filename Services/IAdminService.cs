@@ -1,4 +1,5 @@
 using DbModels;
+using Models;  // För att hitta AttractionsWithCommentsDto
 
 namespace Services;
 
@@ -17,5 +18,6 @@ public interface IAdminService
         string city = null);
 
     public Task<List<AttractionsDbM>> GetAttractionsWithoutReviewsAsync();
-    
+
+    public Task<AttractionWithCommentsDto> GetAttractionWithCommentsAsync(Guid attractionId);
 }

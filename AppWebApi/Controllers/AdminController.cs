@@ -8,6 +8,7 @@ using Configuration;
 using Configuration.Options;
 using Microsoft.Extensions.Options;
 using DbModels;
+using Models;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -204,9 +205,28 @@ namespace AppWebApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        //GET: api/admin/attractionwithcomments?attractionId={attractionId} Visar en sevärdhets kategori, namn, beskrivning med dess kommentarer
+        [HttpGet()]
+        [ActionName("GetAttractionWithComments")]
+        [ProducesResponseType(200, Type = typeof(AttractionWithCommentsDto))]
+        [ProducesResponseType(400, Type = typeof(string))]
+        public async Task<IActionResult> GetAttractionWithComments(Guid attractionId)
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(GetAttractionWithComments)}");
+                var result = await _service.GetAttractionWithCommentsAsync(attractionId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(GetAttractionWithComments)}: {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
 
         //GET: api/admin/log
-        [HttpGet()]
+        [HttpGet()] 
         [ActionName("Log")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<LogMessage>))]
         public async Task<IActionResult> Log([FromServices] ILoggerProvider _loggerProvider)
