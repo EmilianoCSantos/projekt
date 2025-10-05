@@ -225,6 +225,25 @@ namespace AppWebApi.Controllers
             }
         }
 
+        //GET: api/admin/clearalldata Tar bort all testdata från databasen
+        [HttpGet()]
+        [ActionName("ClearAllData")]
+        [ProducesResponseType(200, Type = typeof(object))]
+        public async Task<IActionResult> ClearAllData()
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(ClearAllData)}");
+                var result = await _service.ClearAllDataAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(ClearAllData)}: {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
+
         //GET: api/admin/log
         [HttpGet()] 
         [ActionName("Log")]

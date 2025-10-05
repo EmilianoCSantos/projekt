@@ -25,6 +25,9 @@ public class AdminServiceDb : IAdminService
     public Task<List<AttractionsDbM>> GetAttractionsWithoutReviewsAsync() => _repo.GetAttractionsWithoutReviewsAsync();
 
     public Task<AttractionWithCommentsDto> GetAttractionWithCommentsAsync(Guid attractionId) => _repo.GetAttractionWithCommentsAsync(attractionId);
+
+    public Task<object> ClearAllDataAsync() => _repo.ClearAllDataAsync();
+
     #region constructors
     public AdminServiceDb(AdminDbRepos repo)
     {

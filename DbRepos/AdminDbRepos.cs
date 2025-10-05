@@ -372,6 +372,16 @@ public class AdminDbRepos
 
         return dto;
     }
+    //Tar bort all testdata från databasen
+    public async Task<object> ClearAllDataAsync()
+    {
+        // Fungerar på Windows, macOS, Linux - överallt!
+        await _dbContext.Database.ExecuteSqlRawAsync("DELETE FROM Reviews");
+        await _dbContext.Database.ExecuteSqlRawAsync("DELETE FROM Attractions");
+        await _dbContext.Database.ExecuteSqlRawAsync("DELETE FROM Users");
+        await _dbContext.Database.ExecuteSqlRawAsync("DELETE FROM Locations");
+        return new { Message = "All data cleared from Reviews, Attractions, Users, and Locations tables." };
+    }
 
     public AdminDbRepos(ILogger<AdminDbRepos> logger, Encryptions encryptions, MainDbContext context)
     {

@@ -20,4 +20,5 @@ public interface IAdminService
     public Task<List<AttractionsDbM>> GetAttractionsWithoutReviewsAsync();
 
     public Task<AttractionWithCommentsDto> GetAttractionWithCommentsAsync(Guid attractionId);
+    public Task<object> ClearAllDataAsync();
 }
