@@ -318,6 +318,27 @@ public class AdminDbRepos
             throw;
         }
     }
+    //Visa alla sedvärdheter som inte har någon review
+    public async Task<List<AttractionsDbM>> GetAttractionsWithoutReviewsAsync()
+    {
+        try
+        {
+            _logger.LogInformation("Fetching attractions without reviews...");
+
+            var attractionsWithoutReviews = await _dbContext.Attractions
+                .Include(a => a.Location)
+                .Where(a => !_dbContext.Reviews.Any(r => r.AttractionId == a.AttractionsId))
+                .ToListAsync();
+
+            _logger.LogInformation("Found {count} attractions without reviews", attractionsWithoutReviews.Count);
+            return attractionsWithoutReviews;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error fetching attractions without reviews");
+            throw;
+        }
+    }
 
     public AdminDbRepos(ILogger<AdminDbRepos> logger, Encryptions encryptions, MainDbContext context)
     {

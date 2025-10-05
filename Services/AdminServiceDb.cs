@@ -20,7 +20,8 @@ public class AdminServiceDb : IAdminService
         string description = null, 
         string country = null, 
         string city = null) => _repo.GetFilteredAttractionsAsync(category, title, description, country, city);
-    
+
+    public Task<List<AttractionsDbM>> GetAttractionsWithoutReviewsAsync() => _repo.GetAttractionsWithoutReviewsAsync();
 
     #region constructors
     public AdminServiceDb(AdminDbRepos repo)

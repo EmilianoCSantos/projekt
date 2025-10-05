@@ -185,6 +185,25 @@ namespace AppWebApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        //GET: api/admin/attractionswithoutreviews Visar sevärdheter utan några reviews
+        [HttpGet()]
+        [ActionName("GetAttractionsWithoutReviews")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<AttractionsDbM>))]
+        [ProducesResponseType(400, Type = typeof(string))]
+        public async Task<IActionResult> GetAttractionsWithoutReviews()
+        {
+            try
+            {
+                _logger.LogInformation($"{nameof(GetAttractionsWithoutReviews)}");
+                var result = await _service.GetAttractionsWithoutReviewsAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(GetAttractionsWithoutReviews)}: {ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
 
         //GET: api/admin/log
         [HttpGet()]
